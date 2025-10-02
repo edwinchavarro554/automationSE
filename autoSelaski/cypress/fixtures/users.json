@@ -1,0 +1,14 @@
+{
+  "validUser": {
+    "email": "edinzk1900@gmail.com",
+    "password": "Capsula.259*"
+  },
+  "invalidUser": {
+    "email": "wrong@example.com",
+    "password": "wrongpass"
+  },
+  "invalidMailRecovery": {
+    "email": "adminexample.com",
+    "password": "adminpass"
+  }
+}

@@ -1,0 +1,6 @@
+{
+  "dashboard": {
+    "welcomeMessage": "Welcome to Selaski Dashboard"
+  },
+  "loginErrorMessage": "Correo o contraseña incorrectos"
+}

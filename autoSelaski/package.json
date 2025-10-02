@@ -1,0 +1,38 @@
+{
+  "name": "selaski-qa-automation",
+  "version": "1.0.0",
+  "description": "Proyecto de automatización de pruebas E2E para Selaski usando Cypress, POM y Allure Reports",
+  "main": "index.js",
+  "scripts": {
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "allure:generate": "allure generate ./allure-results --clean -o ./allure-report && cp -r allure-history allure-report/history || echo 'No history found'",
+    "allure:open": "npx allure-commandline open \"allure-report\"",
+    "allure:clean": "rimraf allure-report allure-results",
+    "test": "npm run cypress:run && npm run allure:generate",
+    "test:dev": "cypress run --env environment=dev,baseUrl=https://development.selaski.com",
+    "test:qa": "cypress run --env environment=qa,baseUrl=https://staging.selaski.com",
+    "test:prod": "cypress run --env environment=prod,baseUrl=https://selaski.com"
+  },
+  "keywords": [
+    "cypress",
+    "qa",
+    "automation",
+    "allure",
+    "pom"
+  ],
+  "author": "Edwin Chavarro Trujillo",
+  "license": "MIT",
+  "devDependencies": {
+    "@mmisty/cypress-allure-adapter": "^3.3.0",
+    "@shelex/cypress-allure-plugin": "^2.41.2",
+    "allure-commandline": "^2.34.1",
+    "cypress": "^12.17.4",
+    "cypress-mochawesome-reporter": "^4.0.2",
+    "cypress-xpath": "^2.0.1",
+    "rimraf": "^6.0.1"
+  },
+  "dependencies": {
+    "@faker-js/faker": "^10.0.0"
+  }
+}
