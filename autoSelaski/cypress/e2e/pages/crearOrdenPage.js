@@ -9,7 +9,7 @@ class CrearOrdenPage {
         recepcionOC: 'input[formcontrolname="DateTimeReception"]',
        // formaEnvio: 'select[formcontrolname="IdShippingWay"] option[value="0"]',
         empresa: 'select[formcontrolname="IdBusiness"]',
-        puertoOrigen: ':nth-child(1) > :nth-child(7) > div.md\:col-span-6 > .my-10 > .relative > .col-span-12 > .border',
+        puertoOrigen: ':nth-child(1) > :nth-child(7) > div.md\\:col-span-6 > .my-10 > .relative > .col-span-12 > .border',
         productor: 'ng-select[formcontrolname="IdProducer"] input[type="text"]',
         proveedor: 'ng-select[formcontrolname="IdProvider"] input[type="text"]',
         cliente: 'ng-select[formcontrolname="IdClient"] input[type="text"]',
@@ -40,6 +40,23 @@ class CrearOrdenPage {
         empresaPrueba1: 'select[formcontrolname="IdBusiness"] option[value="327"]',
         empresaPrueba2: 'select[formcontrolname="IdBusiness"] option[value="328"]',
         empresaPruebaRevision: 'select[formcontrolname="IdBusiness"] option[value="409"]',
+        productor: 'ng-select[formcontrolname="IdProducer"] input[type="text"]',
+        comprador: 'ng-select[formcontrolname="IdBuyer"] input[type="text"]',
+        incoterm: 'select[formcontrolname="IdIncoterm"]',
+        usuario: 'ng-select[formcontrolname="IdUserByCompany"] input[type="text"]',
+        tagEmpresa: 'select[formcontrolname="IdTag"]',
+        puertoDestino: 'app-input-search-async input[title="undefined"]:last',
+        puertoOrigenOpcion: 'div#resultSearch span.col-span-12.cursor-pointer.zoom-in:contains("Carolinensiel, Alemania (DECAR)")',
+        // Ejemplo de opciones de tag empresa (puedes agregar más si necesitas seleccionar por valor)
+        tagEmpresaGeneral: 'select[formcontrolname="IdTag"] option[value="460"]',
+        tagEmpresaPrueba1: 'select[formcontrolname="IdTag"] option[value="476"]',
+        tagEmpresaPrueba2: 'select[formcontrolname="IdTag"] option[value="477"]',
+        tagEmpresaPrueba3: 'select[formcontrolname="IdTag"] option[value="478"]',
+        tagEmpresaMateriaPrima: 'select[formcontrolname="IdTag"] option[value="570"]',
+        tagEmpresaRepuestos: 'select[formcontrolname="IdTag"] option[value="573"]',
+        productorInput: 'ng-select[formcontrolname="IdProducer"] input[type="text"]',
+        productorOpcionImpo: 'div.ng-option span.ng-option-label:contains("Productor IMPO")',
+        productorOpcionExpo: 'div.ng-option span.ng-option-label:contains("Productor Expo")',
     };
 
     escribirFechaOC() {
@@ -180,6 +197,7 @@ class CrearOrdenPage {
     seleccionarPuertoOrigenPorBusqueda() {
         // Escribe 'car' en el input de puerto origen y selecciona la primera coincidencia del dropdown
         cy.get(this.selectors.puertoOrigen).clear().type('car');
+        cy.wait(2000); // Espera un segundo para que carguen los resultados
         cy.get('div#resultSearch span.col-span-12.cursor-pointer.zoom-in').first().click();
     }
     // Método para llenar el formulario de la orden
@@ -198,6 +216,12 @@ class CrearOrdenPage {
         this.seleccionarEmpresaAleatoria();
         // seleccionar puerto origen por busqueda
         this.seleccionarPuertoOrigenPorBusqueda();
+        //seleccionar opcion del puerto de origen
+        cy.get(this.selectors.puertoOrigenOpcion).click();
+        // clic en productor y seleccionar opcion
+        cy.get(this.selectors.productorInput).click();
+        cy.get(this.selectors.productorOpcionImpo).click();
+        
         
 
     }
