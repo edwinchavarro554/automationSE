@@ -22,6 +22,7 @@ mochawesome-report/
 .env.development
 .env.test
 .env.production
+cypress.env.json
 
 # Archivos del sistema
 .DS_Store

@@ -12,7 +12,8 @@
     "test": "npm run cypress:run && npm run allure:generate",
     "test:dev": "cypress run --env environment=dev,baseUrl=https://development.selaski.com",
     "test:qa": "cypress run --env environment=qa,baseUrl=https://staging.selaski.com",
-    "test:prod": "cypress run --env environment=prod,baseUrl=https://selaski.com"
+    "test:prod": "cypress run --env environment=prod,baseUrl=https://selaski.com",
+    "test:junit": "cypress run --reporter mocha-junit-reporter --reporter-options mochaFile=cypress/reports/junit/results-[hash].xml"
   },
   "keywords": [
     "cypress",
@@ -24,15 +25,26 @@
   "author": "Edwin Chavarro Trujillo",
   "license": "MIT",
   "devDependencies": {
-    "@mmisty/cypress-allure-adapter": "^3.3.0",
+    "@mmisty/cypress-allure-adapter": "^3.3.2",
     "@shelex/cypress-allure-plugin": "^2.41.2",
     "allure-commandline": "^2.34.1",
+    "axios": "^1.12.2",
     "cypress": "^12.17.4",
     "cypress-mochawesome-reporter": "^4.0.2",
+    "cypress-multi-reporters": "^2.0.5",
     "cypress-xpath": "^2.0.1",
+    "cypress-xray-plugin": "^2.0.3",
+    "dotenv": "^17.2.3",
+    "form-data": "^4.0.4",
+    "glob": "^11.0.3",
+    "mocha-junit-reporter": "^2.2.1",
+    "mochawesome": "^7.1.4",
+    "mochawesome-merge": "^5.0.0",
+    "mochawesome-report-generator": "^6.3.0",
     "rimraf": "^6.0.1"
   },
   "dependencies": {
-    "@faker-js/faker": "^10.0.0"
+    "@faker-js/faker": "^10.0.0",
+    "xml2js": "^0.6.2"
   }
 }
