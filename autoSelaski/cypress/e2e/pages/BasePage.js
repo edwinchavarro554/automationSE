@@ -1,6 +1,11 @@
+// Archivo: cypress/e2e/pages/BasePage.js
+// Descripción: Clase base para páginas con métodos comunes
+// Autor: Equipo QA Automation
+// ============================
+// ============================
 export default class BasePage {
   visit(path = '/') {
-    cy.visit(path); // Cypress usará automáticamente el baseUrl configurado
+    cy.visit(path); 
   }
 
   type(selector, text) {

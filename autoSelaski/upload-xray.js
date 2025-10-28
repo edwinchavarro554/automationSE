@@ -14,7 +14,7 @@ const { parseStringPromise } = require('xml2js'); // Para parsear XML
 // --- CONFIG
 const XRAY_CLIENT_ID = process.env.XRAY_CLIENT_ID;
 const XRAY_CLIENT_SECRET = process.env.XRAY_CLIENT_SECRET;
-const PROJECT_KEY = process.env.PROJECT_KEY || 'SE';
+const PROJECT_KEY = process.env.PROJECT_KEY || 'QA';
 const REPORT_GLOB = process.env.REPORT_GLOB || 'cypress/reports/junit/**/*.xml';
 const XRAY_TESTEXEC_KEY = process.env.XRAY_TESTEXEC_KEY; 
 const JIRA_BASE_URL = process.env.JIRA_BASE_URL; 
@@ -55,7 +55,7 @@ function findValidReportFiles() {
   return validFiles;
 }
 
-// --- Función para mostrar resumen de tests
+// --- Función para mostrar resumen de tests (retorna conteo)
 async function showTestSummary(file) {
   const content = fs.readFileSync(file, 'utf8');
   const xml = await parseStringPromise(content);
@@ -74,10 +74,10 @@ async function showTestSummary(file) {
   });
 
   console.log(`📊 Resumen ${file}: Total=${total}, Fallidos=${failed}, Exitosos=${total - failed}`);
+  return { total, failed };
 }
 
 async function uploadJUnitFile(token, file) {
-  await showTestSummary(file);
   const xmlContent = fs.readFileSync(file, 'utf8').replace(/\\/g, '/');
   const query = XRAY_TESTEXEC_KEY ? `?testExecKey=${XRAY_TESTEXEC_KEY}` : `?projectKey=${PROJECT_KEY}`;
   const url = `https://xray.cloud.getxray.app/api/v2/import/execution/junit${query}`;
@@ -132,16 +132,22 @@ async function attachFileToJira(issueKey, filePath) {
     const files = findValidReportFiles();
 
     let lastResponse = null;
+    let totalFailed = 0;
     for (const file of files) {
+      const summary = await showTestSummary(file);
+      totalFailed += summary.failed || 0;
       lastResponse = await uploadJUnitFile(token, file);
     }
 
     const execKey = extractTestExecKey(lastResponse);
     if (execKey) console.log('🎯 Test Execution creado/actualizado:', execKey);
 
-    if (ATTACH_FILE && execKey) {
+    if (ATTACH_FILE && execKey && totalFailed > 0) {
       const attachResp = await attachFileToJira(execKey, ATTACH_FILE);
       console.log('✅ Respuesta adjunto Jira:', JSON.stringify(attachResp, null, 2));
+    }
+    if (ATTACH_FILE && execKey && totalFailed === 0) {
+      console.log('ℹ️ No se adjunta evidencia porque no hubo casos fallidos.');
     }
 
     process.exit(0);

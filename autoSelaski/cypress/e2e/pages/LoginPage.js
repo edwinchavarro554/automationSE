@@ -40,8 +40,7 @@ export default class LoginPage extends BasePage {
       .should('be.visible')
       .then($toast => {
         cy.wrap($toast)
-          .parent() // Si el mensaje está en un hijo, ajusta aquí
-          .find('.toast-message')
+          .parent() 
           .should('contain.text', 'Verifique los datos');
       });
   }
@@ -50,7 +49,7 @@ export default class LoginPage extends BasePage {
       .should('be.visible')
       .then($toast => {
         cy.wrap($toast)
-          .parent() // Si el mensaje está en un hijo, ajusta aquí
+          .parent() 
           .find('.toast-message')
           .should('contain.text', 'Si tu cuenta existe, se ha enviado un email de recuperación');
       });
